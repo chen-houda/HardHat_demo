@@ -10,7 +10,8 @@ module.exports = {
   networks: {
     sepolia: {
       url: SEPOLIA_RPC_URL,
-      accounts: [PRIVATE_KEY]
+      accounts: [PRIVATE_KEY],
+      chainId: 11155111//sepolia chain id
     }
   },
   etherscan: {

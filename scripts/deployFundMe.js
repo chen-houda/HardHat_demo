@@ -15,18 +15,27 @@ async function main() {
     // console.log("Waiting for 60 seconds before verifying the contract...");
     // await new Promise(resolve => setTimeout(resolve, 60000));
 
-    // // 等待5个确认
-    console.log("Waiting for 5 confirmations")
-    await fundMe.deploymentTransaction().wait(5)
-    console.log("5 confirmations received")
-    // // 验证合约
-    //console.log("Verifying the contract...");
-    // await hre.run("verify:verify", {
-    //     address: fundMe.target,
-    //     constructorArguments: [300],
-    // });
-    //console.log("Contract verified!");
-    await verifyFundMe(fundMe.target, [300])
+    // hre运行时环境 区分本地测试和链上部署
+    // hre.network.config.chainId 区分链
+    if (hre.network.config.chainId == 11155111 && process.env.ETHERSCAN_API_KEY) {
+        // // 等待5个确认
+        console.log("Waiting for 5 confirmations")
+        await fundMe.deploymentTransaction().wait(5)
+        console.log("5 confirmations received")
+        // // 验证合约
+        //console.log("Verifying the contract...");
+        // await hre.run("verify:verify", {
+        //     address: fundMe.target,
+        //     constructorArguments: [300],
+        // });
+        //console.log("Contract verified!");
+        await verifyFundMe(fundMe.target, [300])
+    } else {
+        console.log("verification skipped..")
+    }
+
+
+
 
 
 
