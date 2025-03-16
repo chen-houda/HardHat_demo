@@ -16,7 +16,11 @@ module.exports = {
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
-    apiKey: ETHERSCAN_API_KEY,
+    //apiKey: ETHERSCAN_API_KEY,//单值写法
+    apiKey: {
+      //mainnet: "YOUR_ETHERSCAN_API_KEY",//Multiple API keys and alternative block explorers
+      sepolia: ETHERSCAN_API_KEY
+    },
     timeout: 60000 // 增加超时时间到20秒
   },
   sourcify: {
