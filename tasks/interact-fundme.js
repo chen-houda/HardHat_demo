@@ -33,11 +33,11 @@ task("interact-fundme", "interact with fundme contract")
         const balanceOfContractAfterSecondFund = await ethers.provider.getBalance(fundMe.target)
         console.log(`Balance of the contract is ${balanceOfContractAfterSecondFund}`)
 
-        // // check mapping 
-        // const firstAccountbalanceInFundMe = await fundMe.fundersToAmount(firstAccount.address)
-        // const secondAccountbalanceInFundMe = await fundMe.fundersToAmount(secondAccount.address)
-        // console.log(`Balance of first account ${firstAccount.address} is ${firstAccountbalanceInFundMe}`)
-        // console.log(`Balance of second account ${secondAccount.address} is ${secondAccountbalanceInFundMe}`)
+        // check mapping 
+        const firstAccountbalanceInFundMe = await fundMe.fundersToAmount(firstAccount.address)
+        const secondAccountbalanceInFundMe = await fundMe.fundersToAmount(secondAccount.address)
+        console.log(`Balance of first account ${firstAccount.address} is ${firstAccountbalanceInFundMe}`)
+        console.log(`Balance of second account ${secondAccount.address} is ${secondAccountbalanceInFundMe}`)
     })
 
 module.exports = {}
