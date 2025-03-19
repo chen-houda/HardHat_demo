@@ -5,7 +5,7 @@ task("interact-fundme", "interact with fundme contract")
     .setAction(async (taskArgs, hre) => {
         const fundMeFactory = await ethers.getContractFactory("FundMe")
         const fundMe = fundMeFactory.attach(taskArgs.addr)
-        
+        console.log(fundMe);
 
         // try {
         //     const balance = await fundMe.fundersToAmount("0x5FbDB2315678afecb367f032d93F642f64180aa3");

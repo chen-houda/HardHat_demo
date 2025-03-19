@@ -24,6 +24,14 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY
 //显示所有账号任务
 task("accounts", "Prints the list of accounts with balances").setAction(async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
+  // if (accounts.length > 1) {
+  //   const tx = await accounts[0].sendTransaction({
+  //     to: accounts[1].address,
+  //     value: hre.ethers.parseEther("10") // Sending 0.01 ETH
+  //   });
+  //   await tx.wait();
+  //   console.log(`Sent 0.01 ETH from ${accounts[0].address} to ${accounts[1].address}`);
+  // }
   for (const account of accounts) {
     const balance = await hre.ethers.provider.getBalance(account.address);
     console.log(`${account.address} - ${hre.ethers.formatEther(balance)} ETH`);
