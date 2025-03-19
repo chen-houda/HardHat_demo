@@ -24,14 +24,14 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY
 //显示所有账号任务
 task("accounts", "Prints the list of accounts with balances").setAction(async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
-  // if (accounts.length > 1) {
-  //   const tx = await accounts[0].sendTransaction({
-  //     to: accounts[1].address,
-  //     value: hre.ethers.parseEther("10") // Sending 0.01 ETH
-  //   });
-  //   await tx.wait();
-  //   console.log(`Sent 0.01 ETH from ${accounts[0].address} to ${accounts[1].address}`);
-  // }
+  if (accounts.length > 1) {
+    const tx = await accounts[0].sendTransaction({
+      to: accounts[1].address,
+      value: hre.ethers.parseEther("10") // Sending 0.01 ETH
+    });
+    await tx.wait();
+    console.log(`Sent 0.01 ETH from ${accounts[0].address} to ${accounts[1].address}`);
+  }
   for (const account of accounts) {
     const balance = await hre.ethers.provider.getBalance(account.address);
     console.log(`${account.address} - ${hre.ethers.formatEther(balance)} ETH`);
@@ -44,6 +44,10 @@ module.exports = {
       url: SEPOLIA_RPC_URL,
       accounts: [PRIVATE_KEY, PRIVATE_KEY_1],
       chainId: 11155111//sepolia chain id
+    },
+    ganache: {
+      url: "HTTP://127.0.0.1:7545",
+      accounts: ["0x4f95fcd652665dd0a88800014668591af3bf2ecc1f28eda9fa62a0ebf2c2a13d", "0xcbe678a66edeb2a091e8cbf341aedf8a18e9dfbaea6ffc334b656fbcfaa5b201"]
     }
   },
   etherscan: {

@@ -15,7 +15,7 @@ contract FundMe {
 
     uint256 constant MINIMUM_VALUE = 100 * 10 ** 18; //USD
     
-    AggregatorV3Interface internal dataFeed;
+    //AggregatorV3Interface internal dataFeed;//本地测试注释掉
 
     uint256 constant TARGET = 1000 * 10 ** 18;
 
@@ -30,7 +30,7 @@ contract FundMe {
 
     constructor(uint256 _lockTime) {
         // sepolia testnet
-        dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        //dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
         owner = msg.sender;
         deploymentTimestamp = block.timestamp;
         lockTime = _lockTime;
@@ -42,19 +42,27 @@ contract FundMe {
         fundersToAmount[msg.sender] = msg.value;
     }
 
-    function getChainlinkDataFeedLatestAnswer() public view returns (int) {
-        // prettier-ignore
-        (
-            /* uint80 roundID */,
-            int answer,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
-        ) = dataFeed.latestRoundData();
-        return answer;
+    // function getChainlinkDataFeedLatestAnswer() public view returns (int) {
+    //     // prettier-ignore
+    //     (
+    //         /* uint80 roundID */,
+    //         int answer,
+    //         /*uint startedAt*/,
+    //         /*uint timeStamp*/,
+    //         /*uint80 answeredInRound*/
+    //     ) = dataFeed.latestRoundData();
+    //     return answer;
+    // }
+        function getChainlinkDataFeedLatestAnswer() public pure returns (int) {
+        return 1000**8;
     }
 
-    function convertEthToUsd(uint256 ethAmount) internal view returns(uint256){
+    // function convertEthToUsd(uint256 ethAmount) internal view returns(uint256){
+    //     uint256 ethPrice = uint256(getChainlinkDataFeedLatestAnswer());
+    //     return ethAmount * ethPrice / (10 ** 8);
+    // }
+
+    function convertEthToUsd(uint256 ethAmount) internal pure returns(uint256){
         uint256 ethPrice = uint256(getChainlinkDataFeedLatestAnswer());
         return ethAmount * ethPrice / (10 ** 8);
     }
