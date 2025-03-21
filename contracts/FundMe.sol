@@ -15,7 +15,7 @@ contract FundMe {
 
     uint256 constant MINIMUM_VALUE = 100 * 10 ** 18; //USD
     
-    //AggregatorV3Interface internal dataFeed;//本地测试注释掉
+    AggregatorV3Interface public dataFeed;//本地测试注释掉
 
     uint256 constant TARGET = 1000 * 10 ** 18;
 
@@ -30,7 +30,7 @@ contract FundMe {
 
     constructor(uint256 _lockTime) {
         // sepolia testnet
-        //dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
         owner = msg.sender;
         deploymentTimestamp = block.timestamp;
         lockTime = _lockTime;
