@@ -62,6 +62,14 @@ module.exports = {
     },
     timeout: 60000 // 增加超时时间到20秒
   },
+  namedAccounts: {
+    firstAccount: {
+      default: 0
+    },
+    secondAccount: {
+      default: 1
+    }
+  },
   sourcify: {
     // Disabled by default
     // Doesn't need an API key
