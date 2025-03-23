@@ -3,6 +3,8 @@
 // }
 // module.exports.default = deployFunction;
 
+const { network } = require("hardhat")
+
 
 // module.exports = async (hre) => {
 //     const { deployments, getNamedAccounts } = hre
@@ -14,10 +16,17 @@
 module.exports = async ({ deployments, getNamedAccounts }) => {
     const { firstAccount } = await getNamedAccounts()
     const { deploy } = deployments
+    let dataFeedAddress
+    if (network.name == "sepolia") {
+        dataFeedAddress = "0x694AA1769357215DE4FAC081bf1f309aDC325306"
+    } else {
+        const mockDataFeed = await deployments.get("MockV3Aggregator")
+        dataFeedAddress = mockDataFeed.address
+    }
     await deploy('FundMe', {
         from: firstAccount,
-        args: [300],
+        args: [300, dataFeedAddress],
         log: true
     })
 }
-module.exports.tags = ['All','fundMe']
+module.exports.tags = ['All', 'fundMe']
