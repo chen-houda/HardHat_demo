@@ -1,0 +1,6 @@
+const DECIIMAL = 8
+const INITIAL_ANSWER = 300000000000
+module.exports = {
+    DECIIMAL,
+    INITIAL_ANSWER
+}
