@@ -24,10 +24,19 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     } else {
         dataFeedAddress = networkConfig[network.chainId].ethUsdDataFeed
     }
-    await deploy('FundMe', {
+    const fundMe = await deploy('FundMe', {
         from: firstAccount,
         args: [LOCK_TIME, dataFeedAddress],
         log: true
     })
+
+    if (hre.network.config.chainId == 11155111 && process.env.ETHERSCAN_API_KEY) {
+        await hre.run("verify:verify", {
+            address: fundMe.address,
+            constructorArguments: [LOCK_TIME, dataFeedAddress],
+        });
+    } else {
+        console.log("verification skipped..")
+    }
 }
 module.exports.tags = ['All', 'fundMe']
