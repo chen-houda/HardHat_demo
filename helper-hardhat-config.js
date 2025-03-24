@@ -11,7 +11,6 @@ const LOCK_TIME = 300
 module.exports = {
     DECIIMAL,
     INITIAL_ANSWER,
-    developmentChains,
     localChains,
     networkConfig,
     LOCK_TIME
