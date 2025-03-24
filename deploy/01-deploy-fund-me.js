@@ -4,7 +4,7 @@
 // module.exports.default = deployFunction;
 
 const { network } = require("hardhat")
-
+const { localChains, networkConfig, LOCK_TIME } = require('../helper-hardhat-config')
 
 // module.exports = async (hre) => {
 //     const { deployments, getNamedAccounts } = hre
@@ -17,15 +17,16 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     const { firstAccount } = await getNamedAccounts()
     const { deploy } = deployments
     let dataFeedAddress
-    if (network.name == "sepolia") {
-        dataFeedAddress = "0x694AA1769357215DE4FAC081bf1f309aDC325306"
+    if (localChains.includes(network.name)) {
+        const mockV3Aggregator = await deployments.get("MockV3Aggregator")
+        dataFeedAddress = mockV3Aggregator.address
+
     } else {
-        const mockDataFeed = await deployments.get("MockV3Aggregator")
-        dataFeedAddress = mockDataFeed.address
+        dataFeedAddress = networkConfig[network.chainId].ethUsdDataFeed
     }
     await deploy('FundMe', {
         from: firstAccount,
-        args: [300, dataFeedAddress],
+        args: [LOCK_TIME, dataFeedAddress],
         log: true
     })
 }
