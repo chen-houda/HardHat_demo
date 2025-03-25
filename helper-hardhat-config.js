@@ -7,11 +7,12 @@ const networkConfig = {
     }
 }
 const LOCK_TIME = 300
-
+const CONFIRMATIONS = 5
 module.exports = {
     DECIIMAL,
     INITIAL_ANSWER,
     localChains,
     networkConfig,
-    LOCK_TIME
+    LOCK_TIME,
+    CONFIRMATIONS
 }

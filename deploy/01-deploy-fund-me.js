@@ -4,7 +4,7 @@
 // module.exports.default = deployFunction;
 
 const { network } = require("hardhat")
-const { localChains, networkConfig, LOCK_TIME } = require('../helper-hardhat-config')
+const { localChains, networkConfig, LOCK_TIME,CONFIRMATIONS } = require('../helper-hardhat-config')
 
 // module.exports = async (hre) => {
 //     const { deployments, getNamedAccounts } = hre
@@ -27,7 +27,8 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     const fundMe = await deploy('FundMe', {
         from: firstAccount,
         args: [LOCK_TIME, dataFeedAddress],
-        log: true
+        log: true,
+        waitConfirmations: CONFIRMATIONS
     })
 
     if (hre.network.config.chainId == 11155111 && process.env.ETHERSCAN_API_KEY) {
