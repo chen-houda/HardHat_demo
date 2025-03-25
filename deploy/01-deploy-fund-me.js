@@ -4,7 +4,7 @@
 // module.exports.default = deployFunction;
 
 const { network } = require("hardhat")
-const { localChains, networkConfig, LOCK_TIME,CONFIRMATIONS } = require('../helper-hardhat-config')
+const { localChains, networkConfig, LOCK_TIME, CONFIRMATIONS } = require('../helper-hardhat-config')
 
 // module.exports = async (hre) => {
 //     const { deployments, getNamedAccounts } = hre
@@ -24,19 +24,25 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     } else {
         dataFeedAddress = networkConfig[network.chainId].ethUsdDataFeed
     }
-    const fundMe = await deploy('FundMe', {
-        from: firstAccount,
-        args: [LOCK_TIME, dataFeedAddress],
-        log: true,
-        waitConfirmations: CONFIRMATIONS
-    })
 
+    // remove deployments directory or add --reset flag if you redeploy contract
     if (hre.network.config.chainId == 11155111 && process.env.ETHERSCAN_API_KEY) {
+        const fundMe = await deploy('FundMe', {
+            from: firstAccount,
+            args: [LOCK_TIME, dataFeedAddress],
+            log: true,
+            waitConfirmations: 5
+        })
         await hre.run("verify:verify", {
             address: fundMe.address,
             constructorArguments: [LOCK_TIME, dataFeedAddress],
         });
     } else {
+        await deploy('FundMe', {
+            from: firstAccount,
+            args: [LOCK_TIME, dataFeedAddress],
+            log: true
+        })
         console.log("verification skipped..")
     }
 }
