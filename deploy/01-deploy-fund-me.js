@@ -31,7 +31,7 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
             from: firstAccount,
             args: [LOCK_TIME, dataFeedAddress],
             log: true,
-            waitConfirmations: 5
+            waitConfirmations: CONFIRMATIONS
         })
         await hre.run("verify:verify", {
             address: fundMe.address,
