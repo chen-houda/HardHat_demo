@@ -47,4 +47,4 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     }
 }
 
-module.exports.tags = ['All', 'fundMe']
+module.exports.tags = ['all', 'fundMe']
