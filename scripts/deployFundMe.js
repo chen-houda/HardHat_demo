@@ -7,7 +7,7 @@ async function main() {
     const fundMeFactory = await ethers.getContractFactory("FundMe")
     console.log("contract deploying")
     // deploy contract from factory
-    const fundMe = await fundMeFactory.deploy(300)
+    const fundMe = await fundMeFactory.deploy(300,"0x694AA1769357215DE4FAC081bf1f309aDC325306")
     await fundMe.waitForDeployment()
     console.log(`contract has been deployed successfully, contract address is ${fundMe.target}`);
     // //为了在部署合约后等待一段时间再进行验证，可以在部署脚本中添加一个延迟
@@ -29,7 +29,7 @@ async function main() {
         //     constructorArguments: [300],
         // });
         //console.log("Contract verified!");
-        await verifyFundMe(fundMe.target, [300])
+        await verifyFundMe(fundMe.target, [300,"0x694AA1769357215DE4FAC081bf1f309aDC325306"])
     } else {
         console.log("verification skipped..")
     }
@@ -40,7 +40,7 @@ async function main() {
     // fund contract with first account
     //const fundTx = await fundMe.connect(firstAccount).fund({ value: ethers.parseEther("0.5") })
     //默认情况下，我们使用第一个帐户来签署交易，但是我们可以使用 connect 方法来指定我们想要使用的帐户
-    const fundTx = await fundMe.fund({ value: ethers.parseEther("0.5") })
+    const fundTx = await fundMe.fund({ value: ethers.parseEther("0.01") })
     await fundTx.wait()
     console.log(`2 accounts are ${firstAccount.address} and ${secondAccount.address}`)
 
@@ -50,7 +50,7 @@ async function main() {
     console.log(`Balance of the contract is ${balanceOfContract}`)
 
      // fund contract with second account
-     const fundTxWithSecondAccount = await fundMe.connect(secondAccount).fund({value: ethers.parseEther("0.5")})
+     const fundTxWithSecondAccount = await fundMe.connect(secondAccount).fund({value: ethers.parseEther("0.01")})
      await fundTxWithSecondAccount.wait()
 
      // check balance of contract

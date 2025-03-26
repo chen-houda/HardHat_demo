@@ -22,7 +22,7 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
         dataFeedAddress = mockV3Aggregator.address
 
     } else {
-        dataFeedAddress = networkConfig[network.chainId].ethUsdDataFeed
+        dataFeedAddress = networkConfig[network.config.chainId].ethUsdDataFeed
     }
 
     // remove deployments directory or add --reset flag if you redeploy contract

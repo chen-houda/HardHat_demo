@@ -9,7 +9,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 // 4. 在锁定期内，没有达到目标值，投资人在锁定期以后退款
 
 contract FundMe {
-    uint public test6; //测试
+    uint public test11; //测试
 
     mapping(address => uint256) public fundersToAmount;
 
