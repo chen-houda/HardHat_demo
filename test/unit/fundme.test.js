@@ -17,8 +17,7 @@ describe("test fundme contract", async function () {
         mockV3Aggregator = await deployments.get("MockV3Aggregator")
         fundMe = await ethers.getContractAt("FundMe", fundMeDeployment.address)
 
-        //fundMeSecondAccount = await ethers.getContract("FundMe", secondAccount)
-        fundMeSecondAccount = fundMe.connect(secondAccount)
+        fundMeSecondAccount = await ethers.getContract("FundMe", secondAccount)
     })
 
     it("test if the owner is msg.sender", async function () {
@@ -38,8 +37,18 @@ describe("test fundme contract", async function () {
         assert.equal((await fundMe.dataFeed()), mockV3Aggregator.address)
     })
 
-    // fund, getFund, refund
+     // fund, getFund, refund
     // unit test for fund
     // window open, value greater then minimum value, funder balance
+    it("window closed, value grater than minimum, fund failed", 
+        async function() {
+            // make sure the window is closed
+            await helpers.time.increase(200)
+            await helpers.mine()
+            //value is greater minimum value
+            await expect(fundMe.fund({value: ethers.parseEther("0.1")}))
+                .to.be.revertedWith("window is closed")
+        }
+    )
 
 });
