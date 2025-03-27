@@ -4,6 +4,7 @@ const helpers = require("@nomicfoundation/hardhat-network-helpers")
 const { devlopmentChains } = require("../../helper-hardhat-config")
 
 describe("test fundme contract", async function () {
+    
     let fundMe
     let fundMeSecondAccount
     let firstAccount
@@ -28,6 +29,8 @@ describe("test fundme contract", async function () {
         await fundMe.waitForDeployment()
         //assert.equal((await fundMe.owner()), firstAccount.address)
         assert.equal((await fundMe.owner()), firstAccount)
+        // let should = require('chai').should()
+        // firstAccount.should.equal((await fundMe.owner()))
     });
 
     it("test if the datafeed is assigned correctly", async function () {
@@ -43,10 +46,10 @@ describe("test fundme contract", async function () {
     it("window closed, value grater than minimum, fund failed", 
         async function() {
             // make sure the window is closed
-            await helpers.time.increase(200)
+            await helpers.time.increase(2000)
             await helpers.mine()
             //value is greater minimum value
-            await expect(fundMe.fund({value: ethers.parseEther("0.1")}))
+            await expect(fundMe.fund({value: ethers.parseEther("1")}))
                 .to.be.revertedWith("window is closed")
         }
     )

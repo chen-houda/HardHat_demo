@@ -17,32 +17,30 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     const { firstAccount } = await getNamedAccounts()
     const { deploy } = deployments
     let dataFeedAddress
+    let confirmations
     if (localChains.includes(network.name)) {
         const mockV3Aggregator = await deployments.get("MockV3Aggregator")
         dataFeedAddress = mockV3Aggregator.address
+        confirmations = 0
 
     } else {
         dataFeedAddress = networkConfig[network.config.chainId].ethUsdDataFeed
+        confirmations = CONFIRMATIONS
     }
-
+    const fundMe = await deploy('FundMe', {
+        from: firstAccount,
+        args: [LOCK_TIME, dataFeedAddress],
+        log: true,
+        waitConfirmations: confirmations
+    })
     // remove deployments directory or add --reset flag if you redeploy contract
     if (hre.network.config.chainId == 11155111 && process.env.ETHERSCAN_API_KEY) {
-        const fundMe = await deploy('FundMe', {
-            from: firstAccount,
-            args: [LOCK_TIME, dataFeedAddress],
-            log: true,
-            waitConfirmations: CONFIRMATIONS
-        })
+
         await hre.run("verify:verify", {
             address: fundMe.address,
             constructorArguments: [LOCK_TIME, dataFeedAddress],
         });
     } else {
-        await deploy('FundMe', {
-            from: firstAccount,
-            args: [LOCK_TIME, dataFeedAddress],
-            log: true
-        })
         console.log("verification skipped..")
     }
 }

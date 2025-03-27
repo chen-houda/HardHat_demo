@@ -4,6 +4,7 @@ task("deploy-fundme", "deploy and verify fundme contract").setAction(async (task
     const fundMeFactory = await ethers.getContractFactory("FundMe")
     console.log("contract deploying")
     // deploy contract from factory
+    // fundMeFactory.connect(secondAccount).deploy(300)
     const fundMe = await fundMeFactory.deploy(300)
     await fundMe.waitForDeployment()
     console.log(`contract has been deployed successfully, contract address is ${fundMe.target}`);
