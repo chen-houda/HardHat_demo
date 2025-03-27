@@ -70,4 +70,18 @@ describe("test fundme contract", async function () {
         }
     )
 
+    // unit test for getFund
+    // onlyOwner, windowClose, target reached
+    it("not onwer, window closed, target reached, getFund failed",
+        async function () {
+            // make sure the target is reached
+            await fundMe.fund({ value: ethers.parseEther("1") })
+            // make sure the window is closed
+            await helpers.time.increase(2000)
+            await helpers.mine()
+            // only owner can call getFund
+            await expect(fundMeSecondAccount.getFund()).to.be.revertedWith("this function can only be called by owner")
+        }
+    )
+
 });
