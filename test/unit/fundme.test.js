@@ -16,9 +16,9 @@ describe("test fundme contract", async function () {
         secondAccount = (await getNamedAccounts()).secondAccount
         const fundMeDeployment = await deployments.get("FundMe")
         mockV3Aggregator = await deployments.get("MockV3Aggregator")
-                 const [signer1, signer2] = await ethers.getSigners()
-        //         fundMe = await ethers.getContractAt("FundMe", fundMeDeployment.address,signer1)
-        // console.log(fundMe.runner.address);
+        //const [signer1, signer2] = await ethers.getSigners()
+        //fundMe = await ethers.getContractAt("FundMe", fundMeDeployment.address,signer1)
+        //console.log(fundMe.runner.address);
         fundMe = await ethers.getContractAt("FundMe", fundMeDeployment.address)
         fundMeSecondAccount = await ethers.getContract("FundMe", secondAccount)
     })
