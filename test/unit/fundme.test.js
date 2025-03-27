@@ -1,5 +1,7 @@
 const { ethers, deployments, getNamedAccounts, network } = require("hardhat")
-const { assert } = require("chai");
+const { assert, expect } = require("chai")
+const helpers = require("@nomicfoundation/hardhat-network-helpers")
+const { devlopmentChains } = require("../../helper-hardhat-config")
 
 describe("test fundme contract", async function () {
     let fundMe
@@ -14,7 +16,7 @@ describe("test fundme contract", async function () {
         const fundMeDeployment = await deployments.get("FundMe")
         mockV3Aggregator = await deployments.get("MockV3Aggregator")
         fundMe = await ethers.getContractAt("FundMe", fundMeDeployment.address)
-      
+
         //fundMeSecondAccount = await ethers.getContract("FundMe", secondAccount)
         fundMeSecondAccount = fundMe.connect(secondAccount)
     })
