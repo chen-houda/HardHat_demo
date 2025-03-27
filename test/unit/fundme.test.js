@@ -86,4 +86,30 @@ describe("test fundme contract", async function () {
         }
     )
 
+    it("window open, target reached, getFund failed",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("1") })
+            await expect(fundMe.getFund()).to.be.revertedWith("window is not closed")
+        }
+    )
+
+    it("window closed, target not reached, getFund failed",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("0.1") })
+            await helpers.time.increase(2000)
+            await helpers.mine()
+            await expect(fundMe.getFund()).to.be.revertedWith("Target is not reached")
+        }
+    )
+
+    it("window closed, target reached, getFund success",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("1") })
+            await helpers.time.increase(2000)
+            await helpers.mine()
+            await expect(fundMe.getFund())
+                .to.emit(fundMe, "FundWithdrawByOwner")
+                .withArgs(ethers.parseEther("1"))
+        }
+    )
 });
