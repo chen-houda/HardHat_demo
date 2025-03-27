@@ -4,7 +4,7 @@ const helpers = require("@nomicfoundation/hardhat-network-helpers")
 const { devlopmentChains } = require("../../helper-hardhat-config")
 
 describe("test fundme contract", async function () {
-    
+
     let fundMe
     let fundMeSecondAccount
     let firstAccount
@@ -40,17 +40,33 @@ describe("test fundme contract", async function () {
         assert.equal((await fundMe.dataFeed()), mockV3Aggregator.address)
     })
 
-     // fund, getFund, refund
+    // fund, getFund, refund
     // unit test for fund
     // window open, value greater then minimum value, funder balance
-    it("window closed, value grater than minimum, fund failed", 
-        async function() {
+    it("window closed, value grater than minimum, fund failed",
+        async function () {
             // make sure the window is closed
             await helpers.time.increase(2000)
             await helpers.mine()
             //value is greater minimum value
-            await expect(fundMe.fund({value: ethers.parseEther("1")}))
+            await expect(fundMe.fund({ value: ethers.parseEther("0.1") }))
                 .to.be.revertedWith("window is closed")
+        }
+    )
+
+    it("window open, value is less than minimum, fund failed",
+        async function () {
+            await expect(fundMe.fund({ value: ethers.parseEther("0.01") }))
+                .to.be.revertedWith("Send more ETH")
+        }
+    )
+
+    it("Window open, value is greater minimum, fund success",
+        async function () {
+            // greater than minimum
+            await fundMe.fund({ value: ethers.parseEther("0.1") })
+            const balance = await fundMe.fundersToAmount(firstAccount)
+            await expect(balance).to.equal(ethers.parseEther("0.1"))
         }
     )
 
