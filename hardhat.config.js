@@ -80,5 +80,17 @@ module.exports = {
     // Disabled by default
     // Doesn't need an API key
     enabled: true
-  }
+  },
+  gasReporter: {
+    enabled: true,
+    // currency: "USD",
+    // gasPrice: 21,
+    // coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+    // outputFile: "gas-report.txt",
+    // noColors: true,
+    // token: "ETH",
+    // //showTimeSpent: true,
+    // //showMethodSig: true,
+    // //showMethodVarNames: true
+  },
 };
