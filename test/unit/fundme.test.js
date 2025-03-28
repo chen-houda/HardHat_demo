@@ -112,4 +112,47 @@ describe("test fundme contract", async function () {
                 .withArgs(ethers.parseEther("1"))
         }
     )
+
+    // refund
+    // windowClosed, target not reached, funder has balance
+    it("window open, target not reached, funder has balance",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("0.1") })
+            await expect(fundMe.refund())
+                .to.be.revertedWith("window is not closed");
+        }
+    )
+
+    it("window closed, target reach, funder has balance",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("1") })
+            // make sure the window is closed
+            await helpers.time.increase(2000)
+            await helpers.mine()
+            await expect(fundMe.refund())
+                .to.be.revertedWith("Target is reached");
+        }
+    )
+
+    it("window closed, target not reach, funder does not has balance",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("0.1") })
+            // make sure the window is closed
+            await helpers.time.increase(2000)
+            await helpers.mine()
+            await expect(fundMeSecondAccount.refund())
+                .to.be.revertedWith("there is no fund for you");
+        }
+    )
+
+    it("window closed, target not reached, funder has balance",
+        async function () {
+            await fundMe.fund({ value: ethers.parseEther("0.1") })
+            await helpers.time.increase(2000)
+            await helpers.mine()
+            await expect(fundMe.refund())
+                .to.emit(fundMe, "RefundByFunder")
+                .withArgs(firstAccount, ethers.parseEther("0.1"))
+        }
+    )
 });
