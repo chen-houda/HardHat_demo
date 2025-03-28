@@ -1,7 +1,7 @@
-const { DECIIMAL, INITIAL_ANSWER,localChains } = require('../helper-hardhat-config')
+const { DECIIMAL, INITIAL_ANSWER,devlopmentChains  } = require('../helper-hardhat-config')
 // deploy/00-deploy-mock.js
 module.exports = async ({ deployments, getNamedAccounts }) => {
-    if (localChains.includes(network.name)) {
+    if (devlopmentChains .includes(network.name)) {
         const { firstAccount } = await getNamedAccounts()
         const { deploy } = deployments
         await deploy('MockV3Aggregator', {

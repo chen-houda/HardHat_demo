@@ -43,6 +43,10 @@ task("accounts", "Prints the list of accounts with balances").setAction(async (t
 });
 module.exports = {
   solidity: "0.8.28",
+  defaultNetwork: "hardhat",
+  mocha: {
+    timeout: 500000 // 500 seconds max for running tests 
+  },
   networks: {
     sepolia: {
       url: SEPOLIA_RPC_URL,

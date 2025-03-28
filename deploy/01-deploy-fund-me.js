@@ -4,7 +4,7 @@
 // module.exports.default = deployFunction;
 
 const { network } = require("hardhat")
-const { localChains, networkConfig, LOCK_TIME, CONFIRMATIONS } = require('../helper-hardhat-config')
+const { devlopmentChains , networkConfig, LOCK_TIME, CONFIRMATIONS } = require('../helper-hardhat-config')
 
 // module.exports = async (hre) => {
 //     const { deployments, getNamedAccounts } = hre
@@ -18,7 +18,7 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     const { deploy } = deployments
     let dataFeedAddress
     let confirmations
-    if (localChains.includes(network.name)) {
+    if (devlopmentChains .includes(network.name)) {
         const mockV3Aggregator = await deployments.get("MockV3Aggregator")
         dataFeedAddress = mockV3Aggregator.address
         confirmations = 0
