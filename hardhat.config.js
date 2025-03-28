@@ -82,7 +82,7 @@ module.exports = {
     enabled: true
   },
   gasReporter: {
-    enabled: true,
+    enabled: true, 
     // currency: "USD",
     // gasPrice: 21,
     // coinmarketcap: process.env.COINMARKETCAP_API_KEY,
